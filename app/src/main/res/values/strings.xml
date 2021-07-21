@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Room</string>
+
+
+    <!-- for Contact Us Activity -->
+    <string name="title">Have any questions or queries? We\'d love to hear form you</string>
+    <string name="name">Room Searching Nepal</string>
+    <string name="address">Bharatpur-10 ,Chitwan,Nepal</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

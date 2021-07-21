@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.AccountSetting">
+
+    <androidx.cardview.widget.CardView
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_margin="1dp"
+                android:background="#E4EAE9"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+                <ImageView
+                    android:id="@+id/Logo"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/info" />
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    android:textSize="18sp"
+                    android:layout_toEndOf="@+id/Logo"
+                    android:text="My Information"
+
+                    />
+                <TextView
+                    android:id="@+id/tvDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_below="@+id/tvTitle"
+                    android:layout_margin="10dp"
+                    android:layout_toEndOf="@+id/Logo"
+                    android:text="View and Edit Your Profile"
+                    />
+
+                <ImageButton
+                    android:id="@+id/Next"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/next" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_margin="1dp"
+                android:background="#E4EAE9"
+                android:layout_width="match_parent"
+                android:onClick="onClickk"
+                android:layout_height="100dp">
+
+                <ImageView
+                    android:id="@+id/Logo1"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:onClick="onClickk"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/login" />
+
+                <TextView
+                    android:id="@+id/tvTitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    android:textSize="18sp"
+                    android:onClick="onClickk"
+                    android:layout_toEndOf="@+id/Logo1"
+                    android:text="Logout" />
+                <TextView
+                    android:id="@+id/tvDesc1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:onClick="onClickk"
+                    android:layout_below="@+id/tvTitle1"
+                    android:layout_margin="10dp"
+                    android:layout_toEndOf="@+id/Logo1"
+                    android:text="Logout from App"
+                    />
+
+                <ImageButton
+                    android:id="@+id/Next1"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:onClick="onClick"
+                    android:src="@drawable/next" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

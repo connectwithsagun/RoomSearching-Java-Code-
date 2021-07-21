@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="130dp"
+    android:layout_height="150dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="8dp"
+    android:backgroundTint="@color/back"
+    android:layout_margin="10dp">
+
+    <ImageView
+        android:id="@+id/ivLocationImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher_foreground"
+        android:contentDescription="TODO" />
+
+    <TextView
+        android:id="@+id/tvLocationName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kathmandu"
+        android:textStyle="bold"
+        android:layout_gravity="start"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:textColor="@color/white" />
+
+</androidx.cardview.widget.CardView>
