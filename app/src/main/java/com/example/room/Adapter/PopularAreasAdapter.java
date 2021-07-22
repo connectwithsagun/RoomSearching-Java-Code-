@@ -74,16 +74,17 @@ public class PopularAreasAdapter extends RecyclerView.Adapter<PopularAreasAdapte
             super(itemView);
             this.imageView=itemView.findViewById(R.id.ivLocationImage);
             this.textView=itemView.findViewById(R.id.tvLocationName);
-
             itemView.setTag(this);
-            itemView.setOnClickListener(mOnItemClickListener1);
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                    Toast.makeText(v.getContext(), "clicked", Toast.LENGTH_SHORT).show();
-//                }
-//            });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
+                    int position = viewHolder.getAdapterPosition();
+                    PopularAreasModel thisItem = popularAreasModelList.get(position);
+                   context.startActivity(new Intent(v.getContext(),SelectedAreaActivity.class).putExtra("data",popularAreasModelList.get(position)));
+                }
+            });
         }
     }
 }

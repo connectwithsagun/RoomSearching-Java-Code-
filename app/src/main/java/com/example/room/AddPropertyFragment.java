@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -25,7 +24,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.room.Model.PropertyModel;
 import com.example.room.Remote.ApiInterface;
 import com.example.room.Remote.RetrofitClient;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -36,9 +34,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Objects;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -138,7 +135,6 @@ public class AddPropertyFragment extends Fragment {
         propertyType.add("Home");
         propertyType.add("Flat");
 
-
         adapter= new ArrayAdapter<>(
                 view.getContext().getApplicationContext(),
                 R.layout.dropdown_item,
@@ -195,7 +191,6 @@ public class AddPropertyFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==PIC_IMAGE && resultCode== RESULT_OK && data!=null && data.getData()!=null){
             Uri uri=data.getData();
-
             try {
                 bitmap= MediaStore.Images.Media.getBitmap(this.getContext().getContentResolver(),uri);
                 image.setImageBitmap(bitmap);
@@ -212,8 +207,6 @@ public class AddPropertyFragment extends Fragment {
         return imgByte;
     }
 
-
-
     private void AddData() {
         String image= Arrays.toString(convertToString());
         String Name= name.getText().toString();
@@ -226,30 +219,32 @@ public class AddPropertyFragment extends Fragment {
         String bathrooms=bathroom.getText().toString();
         String bedrooms=bedroom.getText().toString();
         SharedPreferences sharedPreferences= getContext().getSharedPreferences("Login", MODE_PRIVATE);
+
         String token=sharedPreferences.getString("token"," ");
         Log.e("code", token);
 
-
-
         Retrofit retrofit= RetrofitClient.getRetrofitInstance();
         final ApiInterface api=retrofit.create(ApiInterface.class);
-        Call<PropertyModel> call=api.propertyAdd(token,Name,propType,propLocation,propSize,propRent,propDate,furnitureType,image,bathrooms,bedrooms);
-        call.enqueue(new Callback<PropertyModel>() {
+        Call<ResponseBody> call=api.propertyAdd("Bearer "+token,Name,propType,propLocation,propSize,propRent,propDate,furnitureType,image,bathrooms,bedrooms);
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<PropertyModel> call, Response<PropertyModel> response) {
-                Log.e("code", String.valueOf(response.code()));
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.v("rr", ("Dxgvefscdz"));
+                Log.e("rr", String.valueOf(response.code()));
                 try {
-                    Log.e("cod",response.errorBody().string());
+                    Log.v("rr",response.body().string());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                if(response.isSuccessful()){
-                    Toast.makeText(getContext(), " code: "+response.body(), Toast.LENGTH_SHORT).show();
+                // Log.v("rr",response.body().toString());
+                if (response.isSuccessful()){
+                    Toast.makeText(getContext(), "success", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
-            public void onFailure(Call<PropertyModel> call, Throwable t) {
-                Toast.makeText(getContext(), " "+t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), "Failed  "+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

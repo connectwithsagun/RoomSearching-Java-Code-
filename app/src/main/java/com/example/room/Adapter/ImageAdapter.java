@@ -26,6 +26,7 @@ public class ImageAdapter extends PagerAdapter {
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view==object;
     }
+
     private int[] sliderImageId = new int[]{
             R.drawable.room, R.drawable.logo, R.drawable.pp,
     };

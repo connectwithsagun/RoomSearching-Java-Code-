@@ -6,13 +6,16 @@ import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiInterface {
     //for Login
@@ -34,21 +37,35 @@ public interface ApiInterface {
     @GET("property/detail/list")
     Call<List<PropertyModel>> getProperty();
 
+    @Headers("Content-Type: application/json")
     @FormUrlEncoded
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("addproperty")
-    Call<PropertyModel> propertyAdd(
-            @Header("token") String token,
-            @Field("name") String Name,
-            @Field("property_type") String propType,
-            @Field("location") String propLocation,
-            @Field("size") String propSize,
-            @Field("rent") String propRent,
-            @Field("date") String propDate,
-            @Field("furniture") String furnitureType,
-            @Field("image") String image,
-            @Field("bathrooms") String bathrooms,
-            @Field("bedrooms") String bedrooms
+    @Multipart
+    @POST("add/property")
+    Call<ResponseBody> propertyAdd(
+            @Header("Authorization") String token,
+            @Part("name") String Name,
+            @Part("property_type") String propType,
+            @Part("location") String propLocation,
+            @Part("size") String propSize,
+            @Part("rent") String propRent,
+            @Part("date") String propDate,
+            @Part("furniture") String furnitureType,
+           // @Field("image") String image,
+            @Part String file,
+            @Part("bathrooms") String bathrooms,
+            @Part("bedrooms") String bedrooms
     );
+
+    @GET("property/{location}")
+    Call<List<PropertyModel>> getSearch(
+            @Path("location") String location
+    );
+    @POST("searchproperty")
+    Call<List<PropertyModel>> getData(
+            @Query("searchquery") String query
+    );
+
+
+
 
 }

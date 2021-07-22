@@ -1,18 +1,30 @@
 package com.example.room;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.room.Adapter.AllPropertyAdapter;
+import com.example.room.Adapter.PropertyAdapter;
 import com.example.room.Model.AllPropertyModel;
+import com.example.room.Model.PropertyModel;
+import com.example.room.Remote.ApiInterface;
+import com.example.room.Remote.RetrofitClient;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +33,8 @@ import com.example.room.Model.AllPropertyModel;
  */
 public class PropertyFragment extends Fragment {
     RecyclerView recyclerView;
+    List<PropertyModel> propertyList;
+    AllPropertyAdapter propertyAdapter;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -65,27 +79,63 @@ public class PropertyFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_property, container, false);
-        AllPropertyModel[] myListData = new AllPropertyModel[]{
-                new AllPropertyModel(R.drawable.room,
-                        "For Sale",
-                        "Chitwan",
-                        "100000"),
-                new AllPropertyModel(R.drawable.room,"For Rent","Kathmandu","5000"),
-                new AllPropertyModel(R.drawable.room,"For Rent","Kathmandu","5000"),
-                new AllPropertyModel(R.drawable.room,"For Rent","Kathmandu","5000"),
-                new AllPropertyModel(R.drawable.room,"For Rent","Kathmandu","5000"),
-                new AllPropertyModel(R.drawable.room,"For Rent","Kathmandu","5000"),
-                new AllPropertyModel(R.drawable.room,"For Rent","Kathmandu","5000"),
-                new AllPropertyModel(R.drawable.room,"For Rent","Kathmandu","5000"),
-                new AllPropertyModel(R.drawable.room,"For Rent","Kathmandu","5000"),
-                new AllPropertyModel(R.drawable.room,"For Rent","Kathmandu","5000"),
-                new AllPropertyModel(R.drawable.room,"For Rent","Kathmandu","5000")
-        };
-        recyclerView= view.findViewById(R.id.rvAllProperty);
-        AllPropertyAdapter adapter=new AllPropertyAdapter(myListData);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerView.setAdapter(adapter);
+//        AllPropertyModel[] myListData = new AllPropertyModel[]{
+//                new AllPropertyModel(R.drawable.room,
+//                        "For Sale",
+//                        "Chitwan",
+//                        "100000"),
+//                new AllPropertyModel(R.drawable.room,"For Rent","Kathmandu","5000"),
+//                new AllPropertyModel(R.drawable.room,"For Rent","Kathmandu","5000"),
+//                new AllPropertyModel(R.drawable.room,"For Rent","Kathmandu","5000"),
+//                new AllPropertyModel(R.drawable.room,"For Rent","Kathmandu","5000"),
+//                new AllPropertyModel(R.drawable.room,"For Rent","Kathmandu","5000"),
+//                new AllPropertyModel(R.drawable.room,"For Rent","Kathmandu","5000"),
+//                new AllPropertyModel(R.drawable.room,"For Rent","Kathmandu","5000"),
+//                new AllPropertyModel(R.drawable.room,"For Rent","Kathmandu","5000"),
+//                new AllPropertyModel(R.drawable.room,"For Rent","Kathmandu","5000"),
+//                new AllPropertyModel(R.drawable.room,"For Rent","Kathmandu","5000")
+//        };
+//        recyclerView= view.findViewById(R.id.rvAllProperty);
+//        AllPropertyAdapter adapter=new AllPropertyAdapter(myListData);
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+//        recyclerView.setAdapter(adapter);
+        recyclerView = (RecyclerView)view.findViewById(R.id.rvAllProperty);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(),RecyclerView.VERTICAL,false);
+        recyclerView.setLayoutManager(layoutManager);
+        propertyAdapter = new AllPropertyAdapter(view.getContext(),propertyList);
+        recyclerView.setAdapter(propertyAdapter);
+
+        availableProperty();
         return  view;
     }
+
+    private void availableProperty() {
+        ApiInterface apiInterface= RetrofitClient.getRetrofitInstance().create(ApiInterface.class);
+        Call<List<PropertyModel>> call=apiInterface.getProperty();
+        call.enqueue(new Callback<List<PropertyModel>>() {
+            @Override
+            public void onResponse(Call<List<PropertyModel>> call, Response<List<PropertyModel>> response) {
+                propertyList=response.body();
+                Log.d("TAG","Response = "+propertyList);
+                propertyAdapter.setPropertyList(propertyList);
+                propertyAdapter.setOnItemClickListener(onItemClickListener);
+
+            }
+            @Override
+            public void onFailure(Call<List<PropertyModel>> call, Throwable t) {
+
+            }
+        });
+    }
+    private final View.OnClickListener onItemClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
+            int position = viewHolder.getAdapterPosition();
+            //PropertyModel thisItem = propertyList.get(position);
+            startActivity(new Intent(getContext(),DetailActivity.class).putExtra("data",propertyList.get(position)));
+        }
+    };
 }

@@ -36,7 +36,6 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment {
     RecyclerView recyclerView, recyclerView1;
     List<PropertyModel> propertyList;
-    List<PopularAreasModel> popularAreasModelList=new ArrayList<>();
     PropertyAdapter propertyAdapter;
     PopularAreasAdapter adapter;
 
@@ -102,7 +101,6 @@ public class HomeFragment extends Fragment {
         adapter = new PopularAreasAdapter(view.getContext(), Arrays.asList(myListData));
         recyclerView.setAdapter(adapter);
         adapter.setPopularAreasModelList(Arrays.asList(myListData));
-        adapter.setOnItemClickListener1(onItemClickListener1);
 
 
 
@@ -139,14 +137,6 @@ public class HomeFragment extends Fragment {
         });
 
     }
-    private final View.OnClickListener onItemClickListener1 = view -> {
-
-        RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
-        int position = viewHolder.getAdapterPosition();
-        PopularAreasModel thisItem = popularAreasModelList.get(position);
-        Toast.makeText(getContext(), " "+thisItem, Toast.LENGTH_SHORT).show();
-       // startActivity(new Intent(getContext(),DetailActivity.class).putExtra("data",popularAreasModelList.get(position)));
-    };
     private final View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {

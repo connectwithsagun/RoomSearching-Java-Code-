@@ -1,7 +1,10 @@
 package com.example.room.Model;
 
+import android.content.Intent;
+
 public class AllPropertyModel {
-    private int imageId;
+    //private String imag;
+    private int imag;
     private String title;
     private String location;
     private String amount;
@@ -9,19 +12,20 @@ public class AllPropertyModel {
     public AllPropertyModel() {
     }
 
-    public AllPropertyModel(int imageId, String title, String location, String amount) {
-        this.imageId = imageId;
+
+    public AllPropertyModel( int imageId, String title, String location, String amount) {
+        this.imag = imag;
         this.title = title;
         this.location = location;
         this.amount = amount;
     }
 
     public int getImageId() {
-        return imageId;
+        return imag;
     }
 
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
+    public void setImageId(int  imag) {
+        this.imag = imag;
     }
 
     public String getTitle() {

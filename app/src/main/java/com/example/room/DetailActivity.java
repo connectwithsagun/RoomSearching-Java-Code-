@@ -13,9 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
 import com.example.room.Adapter.ImageAdapter;
 import com.example.room.Model.PropertyModel;
 
@@ -24,6 +26,7 @@ public class DetailActivity extends AppCompatActivity {
     Button type,inquiry;
     TextView propLocation,propArea,propBathNo,propBedNo,ownerName,postedDate,propAmount,propType,fType,fullAddress;
     PropertyModel propertyModel;
+    ImageView image;
 
 
     @Override
@@ -47,15 +50,16 @@ public class DetailActivity extends AppCompatActivity {
         postedDate=findViewById(R.id.postedDate);
         fullAddress=findViewById(R.id.fullLocation);
         fType=findViewById(R.id.propFurniture);
+        image=findViewById(R.id.vpImage);
 
-        ViewPager mViewPager = findViewById(R.id.vpImage);
-        ImageAdapter adapterView = new ImageAdapter(this);
-        mViewPager.setAdapter(adapterView);
+
+//        ViewPager mViewPager = findViewById(R.id.vpImage);
+//        ImageAdapter adapterView = new ImageAdapter(this);
+//        mViewPager.setAdapter(adapterView);
 
         inquiry.setOnClickListener(v -> {
                callCustomDialogBox();
         });
-
         Intent intent=getIntent();
         if(intent.getExtras()!=null) {
             propertyModel = (PropertyModel) intent.getSerializableExtra("data");
@@ -80,23 +84,30 @@ public class DetailActivity extends AppCompatActivity {
             propBathNo.setText(bathNo);
             String furniture = String.valueOf(propertyModel.getFurnitureDetail());
             fType.setText(furniture);
+
+            String propertyImage = propertyModel.getPropertyImage();
+            String img = "http://room.oxfordcollege.edu.np/storage";
+            //get index of c from public of public/documents/sXyBPygG0YNIfRraVGeUcFQyURcwoKVE928sw7kW.jpg
+            int index = propertyImage.indexOf("c");
+            //remove string before index of /
+            String result = propertyImage.substring(index+1);
+            //create new image link joining server url
+            String newImageUrl = img.concat(result);
+            Glide.with(this).load(newImageUrl).into(image);
+
+          //  image.setImageResource(Integer.parseInt(propertyModel.getPropertyImage()));
         }
 
     }
 
     private void callCustomDialogBox() {
         ViewGroup viewGroup = findViewById(android.R.id.content);
-
         //then we will inflate the custom alert dialog xml that we created
         View dialogView = LayoutInflater.from(this).inflate(R.layout.my_dialog, viewGroup, false);
-
-
         //Now we need an AlertDialog.Builder object
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
         //setting the view of the builder to our custom view that we already inflated
         builder.setView(dialogView);
-
         //finally creating the alert dialog and displaying it
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
