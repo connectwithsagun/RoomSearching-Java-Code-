@@ -5,7 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+
 public class PropertyModel implements Serializable {
+
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -44,10 +46,10 @@ public class PropertyModel implements Serializable {
     private String furnitureDetail;
     @SerializedName("bathrooms")
     @Expose
-    private Integer bathrooms;
+    private String bathrooms;
     @SerializedName("bedrooms")
     @Expose
-    private Integer bedrooms;
+    private String bedrooms;
 
     public Integer getId() {
         return id;
@@ -145,19 +147,19 @@ public class PropertyModel implements Serializable {
         this.furnitureDetail = furnitureDetail;
     }
 
-    public Integer getBathrooms() {
+    public String getBathrooms() {
         return bathrooms;
     }
 
-    public void setBathrooms(Integer bathrooms) {
+    public void setBathrooms(String bathrooms) {
         this.bathrooms = bathrooms;
     }
 
-    public Integer getBedrooms() {
+    public String getBedrooms() {
         return bedrooms;
     }
 
-    public void setBedrooms(Integer bedrooms) {
+    public void setBedrooms(String bedrooms) {
         this.bedrooms = bedrooms;
     }
 

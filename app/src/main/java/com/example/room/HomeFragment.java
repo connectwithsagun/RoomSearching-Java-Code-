@@ -118,6 +118,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void availableProperty() {
+        Log.v("Sdcx","fvfd");
         //api fetch
         ApiInterface apiInterface= RetrofitClient.getRetrofitInstance().create(ApiInterface.class);
         Call<List<PropertyModel>> call=apiInterface.getProperty();
@@ -125,6 +126,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<List<PropertyModel>> call, Response<List<PropertyModel>> response) {
                 propertyList=response.body();
+                Log.d("TAGll", String.valueOf(response.code()));
+
                 Log.d("TAG","Response = "+propertyList);
                 propertyAdapter.setPropertyList(propertyList);
                 propertyAdapter.setOnItemClickListener(onItemClickListener);

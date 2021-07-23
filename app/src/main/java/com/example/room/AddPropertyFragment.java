@@ -32,9 +32,17 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,7 +68,7 @@ public class AddPropertyFragment extends Fragment {
     private int PIC_IMAGE=1;
     Bitmap bitmap;
     ImageView image;
-
+    InputStream is;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -173,8 +181,14 @@ public class AddPropertyFragment extends Fragment {
         addProperty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddData();
+                try {
+                    AddData(getBytes(is));
+                } catch (IOException | ParseException e) {
+                    e.printStackTrace();
+                }
             }
+
+
         });
         uploadImage.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -192,40 +206,56 @@ public class AddPropertyFragment extends Fragment {
         if(requestCode==PIC_IMAGE && resultCode== RESULT_OK && data!=null && data.getData()!=null){
             Uri uri=data.getData();
             try {
-                bitmap= MediaStore.Images.Media.getBitmap(this.getContext().getContentResolver(),uri);
-                image.setImageBitmap(bitmap);
+                 is = getActivity().getContentResolver().openInputStream(data.getData());
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-    private byte[] convertToString()
-    {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
-        byte[] imgByte = byteArrayOutputStream.toByteArray();
-        return imgByte;
-    }
+    public byte[] getBytes(InputStream is) throws IOException {
+        ByteArrayOutputStream byteBuff = new ByteArrayOutputStream();
 
-    private void AddData() {
-        String image= Arrays.toString(convertToString());
+        int buffSize = 1024;
+        byte[] buff = new byte[buffSize];
+
+        int len = 0;
+        while ((len = is.read(buff)) != -1) {
+            byteBuff.write(buff, 0, len);
+        }
+
+        return byteBuff.toByteArray();
+    }
+    private void AddData(byte[] imageBytes) throws ParseException {
+      //  String image= Arrays.toString(convertToString());
         String Name= name.getText().toString();
         String propType=autoCompleteTextView.getText().toString();
         String propLocation= location.getText().toString();
         String propSize=size.getText().toString();
         String propRent=amount.getText().toString();
         String propDate=textInputEditText1.getText().toString();
+
         String furnitureType=textInputEditText.getText().toString();
         String bathrooms=bathroom.getText().toString();
         String bedrooms=bedroom.getText().toString();
         SharedPreferences sharedPreferences= getContext().getSharedPreferences("Login", MODE_PRIVATE);
 
-        String token=sharedPreferences.getString("token"," ");
-        Log.e("code", token);
+        int userid=sharedPreferences.getInt("userid",0);
+        Log.e("code", String.valueOf(userid));
+        String email=sharedPreferences.getString("useremail"," ");
+        Log.e("code", email);
+
+
+//        Log.v("USER ID", String.valueOf(userid));
+
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), imageBytes);
+
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file", "image.jpg", requestFile);
+
 
         Retrofit retrofit= RetrofitClient.getRetrofitInstance();
         final ApiInterface api=retrofit.create(ApiInterface.class);
-        Call<ResponseBody> call=api.propertyAdd("Bearer "+token,Name,propType,propLocation,propSize,propRent,propDate,furnitureType,image,bathrooms,bedrooms);
+        Call<ResponseBody> call=api.propertyAdd(userid,email,Name,propType,propLocation,propSize,propRent,propDate,furnitureType,body,bathrooms,bedrooms);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

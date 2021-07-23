@@ -82,7 +82,15 @@ public class LogInActivity extends AppCompatActivity {
                         s = response.body().string();
                         JSONObject responseBody=new JSONObject(s);
                         String token=responseBody.getString("token");
-                        Log.e("token",token);
+
+                        String user = responseBody.getString("user");
+
+                        JSONObject userDetails=new JSONObject(user);
+                        editor.putInt("userid",userDetails.getInt("id"));
+                        editor.putString("useremail",userDetails.getString("email"));
+
+
+
                         editor.putString("token",token);
 
                     } catch (IOException | JSONException e) {

@@ -2,8 +2,10 @@ package com.example.room.Remote;
 
 import com.example.room.Model.PropertyModel;
 
+import java.util.Date;
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -37,12 +39,14 @@ public interface ApiInterface {
     @GET("property/detail/list")
     Call<List<PropertyModel>> getProperty();
 
-    @Headers("Content-Type: application/json")
-    @FormUrlEncoded
+//    @Headers("Content-Type: application/json")
+    //@FormUrlEncoded
     @Multipart
     @POST("add/property")
     Call<ResponseBody> propertyAdd(
-            @Header("Authorization") String token,
+//            @Header("Authorization") String token,
+            @Part("uid") Integer uid,
+            @Part("email") String email,
             @Part("name") String Name,
             @Part("property_type") String propType,
             @Part("location") String propLocation,
@@ -50,8 +54,8 @@ public interface ApiInterface {
             @Part("rent") String propRent,
             @Part("date") String propDate,
             @Part("furniture") String furnitureType,
-           // @Field("image") String image,
-            @Part String file,
+            @Part MultipartBody.Part file,
+//            @Part String file,
             @Part("bathrooms") String bathrooms,
             @Part("bedrooms") String bedrooms
     );

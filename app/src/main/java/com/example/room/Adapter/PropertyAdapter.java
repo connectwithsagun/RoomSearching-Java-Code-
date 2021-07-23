@@ -58,7 +58,9 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         holder.propertyName.setText(propertyList.get(position).getPropertyLocation());
 
         String propertyImage = propertyList.get(position).getPropertyImage();
-        String img = "http://room.oxfordcollege.edu.np/storage";
+//        String img = "http://room.oxfordcollege.edu.np/storage";
+        String img = "http://192.168.100.47/storage";
+
         //get index of c from public of public/documents/sXyBPygG0YNIfRraVGeUcFQyURcwoKVE928sw7kW.jpg
         int index = propertyImage.indexOf("c");
         //remove string before index of /
