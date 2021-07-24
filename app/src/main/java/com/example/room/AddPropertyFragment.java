@@ -39,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -228,16 +229,28 @@ public class AddPropertyFragment extends Fragment {
     }
     private void AddData(byte[] imageBytes) throws ParseException {
       //  String image= Arrays.toString(convertToString());
-        String Name= name.getText().toString();
+        String Name= Objects.requireNonNull(name.getText()).toString();
         String propType=autoCompleteTextView.getText().toString();
         String propLocation= location.getText().toString();
         String propSize=size.getText().toString();
         String propRent=amount.getText().toString();
         String propDate=textInputEditText1.getText().toString();
-
         String furnitureType=textInputEditText.getText().toString();
         String bathrooms=bathroom.getText().toString();
         String bedrooms=bedroom.getText().toString();
+
+        Log.e("code", Name);
+        Log.e("code", propType);
+        Log.e("code", propLocation);
+        Log.e("code", propSize);
+        Log.e("code", propRent);
+        Log.e("code", propDate);
+        Log.e("code", furnitureType);
+        Log.e("code", bathrooms);
+        Log.e("code", bedrooms);
+
+
+
         SharedPreferences sharedPreferences= getContext().getSharedPreferences("Login", MODE_PRIVATE);
 
         int userid=sharedPreferences.getInt("userid",0);

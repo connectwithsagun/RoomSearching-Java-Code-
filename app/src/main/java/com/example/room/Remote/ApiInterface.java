@@ -64,9 +64,9 @@ public interface ApiInterface {
     Call<List<PropertyModel>> getSearch(
             @Path("location") String location
     );
-    @POST("searchproperty")
+    @GET("getpropertybyusrid/{id}")
     Call<List<PropertyModel>> getData(
-            @Query("searchquery") String query
+            @Path("id") int query
     );
 
 

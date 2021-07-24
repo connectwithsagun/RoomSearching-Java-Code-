@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
        // private static String baseUrl="http://room.oxfordcollege.edu.np/api/";
-        private static String baseUrl="http://192.168.100.67/api/";
+        private static String baseUrl="http://192.168.100.47:8000/api/";
         private  static Retrofit retrofit;
         private static Gson gson;
 

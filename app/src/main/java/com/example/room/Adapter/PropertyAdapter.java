@@ -1,12 +1,6 @@
 package com.example.room.Adapter;
 
-import static android.os.Build.VERSION_CODES.R;
-
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +8,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.example.room.DetailActivity;
-import com.example.room.LogInActivity;
+import com.example.room.Constants.Constant;
 import com.example.room.Model.PropertyModel;
-import com.example.room.R;
-import com.example.room.RegisterActivity;
-import com.example.room.SelectedAreaActivity;
 
 import java.util.List;
 
@@ -51,22 +41,51 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.propertyType.setText(propertyList.get(position).getPropertyType());
-        holder.propertyArea.setText(propertyList.get(position).getPropertySize());
-        holder.propertyLocation.setText(propertyList.get(position).getPropertyLocation());
-        holder.propertyAmount.setText(propertyList.get(position).getPropertyRent());
-        holder.propertyName.setText(propertyList.get(position).getPropertyLocation());
 
-        String propertyImage = propertyList.get(position).getPropertyImage();
+       // holder.propertyArea.setText(propertyList.get(position).getPropertySize());
+       // holder.propertyLocation.setText(propertyList.get(position).getPropertyLocation());
+       // holder.propertyAmount.setText(propertyList.get(position).getPropertyRent());
+        //holder.propertyName.setText(propertyList.get(position).getPropertyLocation());
+
+        String ss=propertyList.get(position).getPropertyType();
+       ss=ss.replace("\""," ");
+        holder.propertyType.setText(ss);
+
+        String s=propertyList.get(position).getPropertySize();
+        s=s.replace("\""," ");
+        holder.propertyArea.setText(s);
+
+        String location=propertyList.get(position).getPropertyLocation();
+        location=location.replace("\""," ");
+        holder.propertyLocation.setText(location);
+
+        String rent=propertyList.get(position).getPropertyRent();
+        rent=rent.replace("\""," ");
+        holder.propertyAmount.setText(rent);
+
+        String name=propertyList.get(position).getPropertyLocation();
+        name=name.replace("\""," ");
+        holder.propertyName.setText(name);
+
+
+
+
+
+
+
+
+
+                String propertyImage = propertyList.get(position).getPropertyImage();
 //        String img = "http://room.oxfordcollege.edu.np/storage";
-        String img = "http://192.168.100.47/storage";
+//        String img = "http://192.168.100.47:8000/storage";
+//
 
         //get index of c from public of public/documents/sXyBPygG0YNIfRraVGeUcFQyURcwoKVE928sw7kW.jpg
         int index = propertyImage.indexOf("c");
         //remove string before index of /
         String result = propertyImage.substring(index+1);
         //create new image link joining server url
-        String newImageUrl = img.concat(result);
+        String newImageUrl = Constant.imagerl.concat(result);
         Glide.with(context).asBitmap().load(newImageUrl).into(holder.propertyImage);
 
 

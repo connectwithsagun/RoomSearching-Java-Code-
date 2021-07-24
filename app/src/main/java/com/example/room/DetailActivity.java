@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.room.Adapter.ImageAdapter;
+import com.example.room.Constants.Constant;
 import com.example.room.Model.PropertyModel;
 
 
@@ -65,34 +66,49 @@ public class DetailActivity extends AppCompatActivity {
             propertyModel = (PropertyModel) intent.getSerializableExtra("data");
             String msg = "Name : " + propertyModel.getId();
             Log.e("data", msg);
-            ownerName.setText(propertyModel.getOwnerName());
+            String name=propertyModel.getOwnerName();
+            name=name.replace("\"","");
+            ownerName.setText(name);
             String property=propertyModel.getPropertyType();
+            property=property.replace("\"","");
             propType.setText(property);
-            type.setText(propertyModel.getPropertyType());
+            String type=propertyModel.getPropertyType();
+            type=type.replace("\"","");
+            propType.setText(type);
             String Location=propertyModel.getPropertyLocation();
+            Location=Location.replace("\"","");
             propLocation.setText(property+" on Rent at "+Location);
             fullAddress.setText(Location);
             String val=propertyModel.getPropertyRent();
+            val=val.replace("\"","");
             propAmount.setText(val+"/month");
-            propArea.setText(propertyModel.getPropertySize());
+
+            String area=propertyModel.getPropertySize();
+            area=area.replace("\"","");
+            propArea.setText(area);
 
             String postDate = propertyModel.getPostedDate();
+            postDate=postDate.replace("\"","");
             postedDate.setText("Posted on "+postDate);
+
             String bedNo = String.valueOf(propertyModel.getBedrooms());
+            bedNo=bedNo.replace("\"","");
             propBedNo.setText(bedNo);
             String bathNo = String.valueOf(propertyModel.getBathrooms());
+            bathNo=bathNo.replace("\"","");
             propBathNo.setText(bathNo);
             String furniture = String.valueOf(propertyModel.getFurnitureDetail());
+            furniture=furniture.replace("\"","");
             fType.setText(furniture);
 
             String propertyImage = propertyModel.getPropertyImage();
-            String img = "http://room.oxfordcollege.edu.np/storage";
+            //String img = "http://room.oxfordcollege.edu.np/storage";
             //get index of c from public of public/documents/sXyBPygG0YNIfRraVGeUcFQyURcwoKVE928sw7kW.jpg
             int index = propertyImage.indexOf("c");
             //remove string before index of /
             String result = propertyImage.substring(index+1);
             //create new image link joining server url
-            String newImageUrl = img.concat(result);
+            String newImageUrl = Constant.imagerl.concat(result);
             Glide.with(this).load(newImageUrl).into(image);
 
           //  image.setImageResource(Integer.parseInt(propertyModel.getPropertyImage()));

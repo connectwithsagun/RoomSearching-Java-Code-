@@ -106,7 +106,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:hint="Property Size"
+            android:hint="Property Size in sq/ropani"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -127,6 +127,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/amount"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>

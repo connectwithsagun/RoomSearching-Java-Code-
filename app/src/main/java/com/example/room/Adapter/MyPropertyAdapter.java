@@ -1,5 +1,6 @@
 package com.example.room.Adapter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,18 +11,28 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.room.Constants.Constant;
 import com.example.room.DetailActivity;
-import com.example.room.Model.AllPropertyModel;
-import com.example.room.Model.MyPropertyModel;
 import com.example.room.Model.PropertyModel;
 import com.example.room.R;
 
-public class MyPropertyAdapter extends RecyclerView.Adapter<MyPropertyAdapter.ViewHolder> {
-    private MyPropertyModel[] listData;
+import java.util.List;
 
-    public MyPropertyAdapter(MyPropertyModel[] listData) {
-        this.listData = listData;
+public class MyPropertyAdapter extends RecyclerView.Adapter<MyPropertyAdapter.ViewHolder> {
+
+    Context context;
+    List<PropertyModel> mPropertyList;
+
+    public MyPropertyAdapter(Context context, List<PropertyModel> mPropertyList) {
+        this.context = context;
+        this.mPropertyList = mPropertyList;
     }
+    public void setPropertyList(List<PropertyModel> mPropertyList) {
+        this.mPropertyList = mPropertyList;
+        notifyDataSetChanged();
+    }
+
 
     @NonNull
     @Override
@@ -34,32 +45,58 @@ public class MyPropertyAdapter extends RecyclerView.Adapter<MyPropertyAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final MyPropertyModel myListData=listData[position];
-        holder.imageView.setImageResource(listData[position].getImage());
-        holder.textView.setText(listData[position].getPropertyType());
-        holder.textView1.setText(listData[position].getPropertyArea());
-        holder.textView2.setText(listData[position].getPropertyTitle());
-        holder.textView3.setText(listData[position].getPropertyLocation());
-        holder.textView4.setText(listData[position].getStatus());
+
+        String ss=mPropertyList.get(position).getPropertyType();
+        ss=ss.replace("\""," ");
+        holder.propertyType.setText(ss);
+
+        String s=mPropertyList.get(position).getPropertySize();
+        s=s.replace("\""," ");
+        holder.propertyArea.setText(s);
+
+        String location=mPropertyList.get(position).getPropertyLocation();
+        location=location.replace("\""," ");
+        holder.propertyLocation.setText(location);
+
+        String rent=mPropertyList.get(position).getPropertyLocation();
+        rent=rent.replace("\""," ");
+        holder.propertyFor.setText("For Rent at " +rent);
+
+
+
+        String propertyImage = mPropertyList.get(position).getPropertyImage();
+//        String img = "http://room.oxfordcollege.edu.np/storage";
+      //  String img = "http://192.168.100.47/storage";
+
+        //get index of c from public of public/documents/sXyBPygG0YNIfRraVGeUcFQyURcwoKVE928sw7kW.jpg
+        int index = propertyImage.indexOf("c");
+        //remove string before index of /
+        String result = propertyImage.substring(index+1);
+        //create new image link joining server url
+        String newImageUrl = Constant.imagerl.concat(result);
+        Glide.with(context).asBitmap().load(newImageUrl).into(holder.propertyImage);
+
     }
 
     @Override
     public int getItemCount() {
-        return listData.length;
+        if(mPropertyList != null){
+            return mPropertyList.size();
+        }
+        return 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView imageView;
-        TextView textView,textView1,textView2,textView3,textView4;
+        ImageView propertyImage;
+        TextView propertyType,propertyArea,propertyFor,propertyLocation;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView=itemView.findViewById(R.id.propertyImage);
-            textView=itemView.findViewById(R.id.propertyType);
-            textView1=itemView.findViewById(R.id.propertyArea);
-            textView2=itemView.findViewById(R.id.propertyTitle);
-            textView3=itemView.findViewById(R.id.propertyLocation);
-            textView4=itemView.findViewById(R.id.status);
+            propertyImage=itemView.findViewById(R.id.propertyImage);
+            propertyType=itemView.findViewById(R.id.propertyType);
+            propertyArea=itemView.findViewById(R.id.propertyArea);
+            propertyFor=itemView.findViewById(R.id.propertyTitle);
+            propertyLocation=itemView.findViewById(R.id.propertyLocation);
 
             itemView.setOnClickListener(v -> {
                 Intent intent=new Intent(v.getContext(), DetailActivity.class);

@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.room.Constants.Constant;
 import com.example.room.DetailActivity;
 import com.example.room.LogInActivity;
 import com.example.room.Model.AllPropertyModel;
@@ -51,18 +52,27 @@ public class AllPropertyAdapter extends RecyclerView.Adapter<AllPropertyAdapter.
          String s="For Rent at ";
          String resultTitle=s.concat(title);
 
-        holder.propertyLocation.setText(propertyList.get(position).getPropertyLocation());
-        holder.propertyAmount.setText(propertyList.get(position).getPropertyRent());
-        holder.propertyName.setText(resultTitle);
+
+        String location=propertyList.get(position).getPropertyLocation();
+        location=location.replace("\""," ");
+        holder.propertyLocation.setText(location);
+
+        String rent=propertyList.get(position).getPropertyRent();
+        rent=rent.replace("\""," ");
+        holder.propertyAmount.setText(rent);
+
+        String name=propertyList.get(position).getOwnerName();
+        name=name.replace("\""," ");
+        holder.propertyName.setText(name);
 
         String propertyImage = propertyList.get(position).getPropertyImage();
-        String img = "http://room.oxfordcollege.edu.np/storage";
+        //String img = "http://room.oxfordcollege.edu.np/storage";
         //get index of c from public of public/documents/sXyBPygG0YNIfRraVGeUcFQyURcwoKVE928sw7kW.jpg
         int index = propertyImage.indexOf("c");
         //remove string before index of /
         String result = propertyImage.substring(index+1);
         //create new image link joining server url
-        String newImageUrl = img.concat(result);
+        String newImageUrl = Constant.imagerl.concat(result);
         Glide.with(context).asBitmap().load(newImageUrl).into(holder.propertyImage);
 
 
